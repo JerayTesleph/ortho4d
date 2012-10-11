@@ -1,6 +1,8 @@
 package ortho4d.test;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BoundedRangeModel;
@@ -9,8 +11,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import ortho4d.math.Vector;
 import ortho4d.test.CoordinatePreview.Coordinate;
 import ortho4d.test.CoordinatePreview.RevertingCoordinate;
+import ortho4d.test.CoordinatePreview.SimpleCoordinate;
 
 public final class RotGUI implements ChangeListener {
 	private final RotPanel panel;
@@ -69,9 +73,35 @@ public final class RotGUI implements ChangeListener {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
+			private final Calculator buildCalculator() {
+//				return new SingleWCalculator();
+				
+				List<SimpleCoordinate> coordinates = new LinkedList<SimpleCoordinate>();
+				SimpleCoordinate c;
+				
+				c = new SimpleCoordinate(new Vector(1, 0, 0, 0));
+				c.setColor(Color.RED);
+				coordinates.add(c);
+				
+				c = new SimpleCoordinate(new Vector(0, 1, 0, 0));
+				c.setColor(Color.GREEN);
+				coordinates.add(c);
+				
+				c = new SimpleCoordinate(new Vector(0, 0, 1, 0));
+				c.setColor(Color.BLUE);
+				coordinates.add(c);
+				
+				c = new SimpleCoordinate(new Vector(0, 0, 0, 1));
+				c.setColor(Color.ORANGE);
+				coordinates.add(c);
+				
+				return new MatrixCalculator(coordinates);
+			}
+			
 			@Override
 			public void run() {
-				new RotGUI(new SingleWCalculator());
+				Calculator c = buildCalculator();
+				new RotGUI(c);
 			}
 		});
 	}
@@ -79,6 +109,6 @@ public final class RotGUI implements ChangeListener {
 	public static interface Calculator {
 		void plug(double alpha, double beta, double gamma);
 
-		List<Coordinate> getCoordinates();
+		List<? extends Coordinate> getCoordinates();
 	}
 }

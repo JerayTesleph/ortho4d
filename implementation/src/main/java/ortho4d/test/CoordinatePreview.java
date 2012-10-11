@@ -80,13 +80,30 @@ public class CoordinatePreview extends JComponent {
 
 		public abstract Color getColor();
 	}
+	
+	public static abstract class BackedCoordinate implements Coordinate {
+		protected final Coordinate backing;
 
-	public static final class RevertingCoordinate implements Coordinate {
-		private final Coordinate backing;
+		public BackedCoordinate(Coordinate backing) {
+			this.backing = backing;
+		}
+
+		@Override
+		public int getRadius() {
+			return backing.getRadius();
+		}
+
+		@Override
+		public Color getColor() {
+			return backing.getColor();
+		}
+	}
+
+	public static final class RevertingCoordinate extends BackedCoordinate {
 		private final Vector dummy = new Vector();
 
 		public RevertingCoordinate(Coordinate backing) {
-			this.backing = backing;
+			super(backing);
 		}
 
 		@Override
