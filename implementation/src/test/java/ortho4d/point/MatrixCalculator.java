@@ -1,4 +1,4 @@
-package ortho4d.test;
+package ortho4d.point;
 
 import java.awt.Color;
 import java.util.LinkedList;
@@ -6,9 +6,9 @@ import java.util.List;
 
 import ortho4d.math.RotationalMatrix;
 import ortho4d.math.Vector;
-import ortho4d.test.CoordinatePreview.BackedCoordinate;
-import ortho4d.test.CoordinatePreview.Coordinate;
-import ortho4d.test.RotGUI.Calculator;
+import ortho4d.point.CoordinatePreview.BackedCoordinate;
+import ortho4d.point.CoordinatePreview.Coordinate;
+import ortho4d.point.RotGUI.Calculator;
 
 public class MatrixCalculator implements Calculator {
 	private final List<MatrixCoordinate> coordinates;

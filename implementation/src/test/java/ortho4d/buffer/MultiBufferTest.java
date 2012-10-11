@@ -1,4 +1,4 @@
-package ortho4d.test;
+package ortho4d.buffer;
 
 import java.awt.Color;
 import java.awt.DisplayMode;

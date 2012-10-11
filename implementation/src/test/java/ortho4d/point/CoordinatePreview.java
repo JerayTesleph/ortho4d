@@ -1,4 +1,4 @@
-package ortho4d.test;
+package ortho4d.point;
 
 import java.awt.Color;
 import java.awt.Dimension;

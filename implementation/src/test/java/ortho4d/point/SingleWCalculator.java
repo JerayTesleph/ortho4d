@@ -1,12 +1,12 @@
-package ortho4d.test;
+package ortho4d.point;
 
 import java.util.Collections;
 import java.util.List;
 
 import ortho4d.math.Vector;
-import ortho4d.test.CoordinatePreview.Coordinate;
-import ortho4d.test.CoordinatePreview.SimpleCoordinate;
-import ortho4d.test.RotGUI.Calculator;
+import ortho4d.point.CoordinatePreview.Coordinate;
+import ortho4d.point.CoordinatePreview.SimpleCoordinate;
+import ortho4d.point.RotGUI.Calculator;
 
 public final class SingleWCalculator implements Calculator {
 	private final Vector v = new Vector();

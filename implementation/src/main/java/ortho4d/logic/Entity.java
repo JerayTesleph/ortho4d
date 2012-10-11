@@ -1,6 +1,5 @@
 package ortho4d.logic;
 
-import ortho4d.math.Camera;
 
 /**
  * Entities are meant to represent the "high-level thingy" that should be

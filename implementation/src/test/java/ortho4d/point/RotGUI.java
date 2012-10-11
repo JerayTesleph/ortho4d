@@ -1,4 +1,4 @@
-package ortho4d.test;
+package ortho4d.point;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,9 +12,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ortho4d.math.Vector;
-import ortho4d.test.CoordinatePreview.Coordinate;
-import ortho4d.test.CoordinatePreview.RevertingCoordinate;
-import ortho4d.test.CoordinatePreview.SimpleCoordinate;
+import ortho4d.point.CoordinatePreview.Coordinate;
+import ortho4d.point.CoordinatePreview.RevertingCoordinate;
+import ortho4d.point.CoordinatePreview.SimpleCoordinate;
 
 public final class RotGUI implements ChangeListener {
 	private final RotPanel panel;

@@ -1,4 +1,7 @@
-package ortho4d.math;
+package ortho4d.logic;
+
+import ortho4d.math.Matrix;
+import ortho4d.math.Vector;
 
 /**
  * Note that the camera is NOT responsible for rendering in ANY way.<br>

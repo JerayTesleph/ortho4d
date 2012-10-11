@@ -2,7 +2,6 @@ package ortho4d.logic;
 
 import java.util.List;
 
-import ortho4d.math.Camera;
 
 /**
  * This is the renderer, which can do a single step of "rendering" at a time.<br>
