@@ -1,1 +1,38 @@
+# Java
+
+*.class
+#*.jar
+*.war
+*.ear
+
+# Maven
+
 target/
+
+# Windows
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+
+.*
+!.gitignore
+!.project
+
+# Eclipse
+
+*.pydevproject
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+
+# Locally stored "Eclipse launch configurations"
+*.launch
