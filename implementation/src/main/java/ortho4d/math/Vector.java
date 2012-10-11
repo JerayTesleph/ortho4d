@@ -1,5 +1,10 @@
 package ortho4d.math;
 
+/**
+ * A four-spatial-dimensional vector, representing the distance from the origin
+ * of the "current" coordinate system in left-right (x), top-bottom (y),
+ * forth-back (z, also called "in front of"-"behind"), ana-kata (w) terms.
+ */
 public final class Vector {
 	public double x, y, z, w;
 
@@ -9,7 +14,7 @@ public final class Vector {
 		this.z = z;
 		this.w = w;
 	}
-	
+
 	public Vector() {
 		x = y = z = w = 0;
 	}
@@ -20,28 +25,28 @@ public final class Vector {
 		this.z = v.z;
 		this.w = v.w;
 	}
-	
+
 	public void plus(Vector other) {
 		x += other.x;
 		y += other.y;
 		z += other.z;
 		w += other.w;
 	}
-	
+
 	public void plus(Vector other, double scalar) {
 		x += other.x * scalar;
 		y += other.y * scalar;
 		z += other.z * scalar;
 		w += other.w * scalar;
 	}
-	
+
 	public void minus(Vector other) {
 		x -= other.x;
 		y -= other.y;
 		z -= other.z;
 		w -= other.w;
 	}
-	
+
 	public void set(Vector other) {
 		x = other.x;
 		y = other.y;

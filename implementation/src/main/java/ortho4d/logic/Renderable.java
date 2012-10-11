@@ -12,9 +12,37 @@ import ortho4d.math.Vector;
  * returned object.
  */
 public interface Renderable {
+	/**
+	 * Returns a rough estimate of the center of the bounding sphere. See
+	 * getRoughRadius() for details.<br>
+	 * Must be called on the Rendering thread.<br>
+	 * Note that the return value may not change, unless this instance "knows"
+	 * that the cycle has ended.
+	 * 
+	 * @return a rough estimate of the center
+	 */
 	public Vector getCenter();
 
+	/**
+	 * Returns a rough, rounded-up estimate of the radius from the center to
+	 * create a bounding sphere. This is used by the Renderer (actually, the
+	 * RenderableQueue) to sort out Renderables that definitely aren't going to
+	 * be visible anyway<br>
+	 * Must be called on the Rendering thread.<br>
+	 * Note that the return value may not change, unless this instance "knows"
+	 * that the cycle has ended.
+	 * 
+	 * @return a rough, rounded-up estimate of the radius
+	 */
 	public double getRoughRadius();
-	
+
+	/**
+	 * (Atomically) Renders this projection of this 4D object onto the given 3D
+	 * canvas.<br>
+	 * Must be called on the Rendering thread.
+	 * 
+	 * @param c
+	 *            the canvas to paint the projection on
+	 */
 	public void render(Canvas3D c);
 }
