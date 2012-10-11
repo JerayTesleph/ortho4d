@@ -9,6 +9,6 @@ import ortho4d.math.Matrix;
  */
 public interface Entity {
 	// Note that an Entity can create a "bounding sphere" and quickly check on
-	// the Queue whether it's goinging to be displayed at all or not
+	// the Queue whether it's going to be displayed at all or not
 	public void registerRenderables(RenderableQueue q, Matrix m);
 }
