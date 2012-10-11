@@ -41,4 +41,11 @@ public final class Vector {
 		z -= other.z;
 		w -= other.w;
 	}
+	
+	public void set(Vector other) {
+		x = other.x;
+		y = other.y;
+		z = other.z;
+		w = other.w;
+	}
 }
