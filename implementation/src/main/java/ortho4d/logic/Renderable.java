@@ -15,5 +15,6 @@ public interface Renderable {
 	public Vector getCenter();
 
 	public double getRoughRadius();
-	/* public void render(Canvas3D c); */
+	
+	public void render(Canvas3D c);
 }

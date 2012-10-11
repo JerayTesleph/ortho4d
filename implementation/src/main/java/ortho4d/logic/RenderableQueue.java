@@ -13,11 +13,15 @@ public abstract class RenderableQueue implements Iterable<Renderable> {
 	public RenderableQueue() {
 		queue = new TreeSet<Renderable>(COMPARATOR);
 	}
-	
+
 	// == Public interface
 
 	// Yep, may also be called from outer classes
 	public abstract boolean isOkay(Renderable r);
+
+	public void clear() {
+		queue.clear();
+	}
 
 	@Override
 	public final Iterator<Renderable> iterator() {
@@ -54,7 +58,7 @@ public abstract class RenderableQueue implements Iterable<Renderable> {
 			final Vector v1, v2;
 			v1 = r1.getCenter();
 			v2 = r2.getCenter();
-			
+
 			if (v1.w < v2.w) {
 				return CLOSER;
 			} else if (v1.w > v2.w) {
@@ -63,15 +67,16 @@ public abstract class RenderableQueue implements Iterable<Renderable> {
 				return CLOSER;
 			} else if (r1.getRoughRadius() > r2.getRoughRadius()) {
 				return FURTHER_AWAY;
-			} else /* Huh */ if (v1.x < v2.x) {
+			} else /* Huh */if (v1.x < v2.x) {
 				// Note that checking for the X value isn't necessary
 				// I do that only to try to stay "consistent"
-				// That is, keeping up the 
+				// That is, keeping up the
 				return CLOSER;
 			} else if (v1.x > v2.x) {
 				return FURTHER_AWAY;
-			} else /* Eh, fuck it */ {
-				final int o1 = System.identityHashCode(r1), o2 = System.identityHashCode(r2);
+			} else /* Eh, fuck it */{
+				final int o1 = System.identityHashCode(r1), o2 = System
+						.identityHashCode(r2);
 				if (o1 < o2) {
 					return CLOSER;
 				} else {

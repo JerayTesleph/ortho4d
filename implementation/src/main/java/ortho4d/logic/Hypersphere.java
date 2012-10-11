@@ -27,4 +27,10 @@ public class Hypersphere implements Renderable {
 	public double getRoughRadius() {
 		return size;
 	}
+
+	@Override
+	public void render(Canvas3D c) {
+		// FIXME: Auto-generated method stub
+		throw new UnsupportedOperationException();
+	}
 }
