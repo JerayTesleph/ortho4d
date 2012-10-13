@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ortho4d.math.Vector;
-import ortho4d.point.CoordinatePreview.SimpleSphere;
+import ortho4d.point.SimpleSphere;
 
 public class CompoundEntity implements Entity {
 	private final List<Entity> entities = new LinkedList<Entity>();

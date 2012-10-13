@@ -1,7 +1,7 @@
 package ortho4d.logic;
 
 import ortho4d.math.Vector;
-import ortho4d.point.CoordinatePreview.ColoredSphere;
+import ortho4d.point.ColoredSphere;
 
 public class SphereEntity implements Entity {
 	private final ColoredSphere backing;

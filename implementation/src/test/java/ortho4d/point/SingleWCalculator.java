@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import ortho4d.math.Vector;
-import ortho4d.point.CoordinatePreview.ColoredSphere;
-import ortho4d.point.CoordinatePreview.SimpleSphere;
 import ortho4d.point.RotGUI.Calculator;
 
 public final class SingleWCalculator implements Calculator {

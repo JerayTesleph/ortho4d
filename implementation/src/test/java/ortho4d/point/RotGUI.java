@@ -12,9 +12,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ortho4d.math.Vector;
-import ortho4d.point.CoordinatePreview.ColoredSphere;
-import ortho4d.point.CoordinatePreview.CoordRevertingSphere;
-import ortho4d.point.CoordinatePreview.SimpleSphere;
 
 public final class RotGUI implements ChangeListener {
 	private final RotPanel panel;
