@@ -1,13 +1,15 @@
 package ortho4d.gui;
 
-import javax.swing.JFrame;
+import java.util.LinkedList;
+import java.util.List;
 
-import ortho4d.gui.DoubleBufferCanvas3D;
+import javax.swing.JFrame;
 
 public class InstantCanvasWindow extends JFrame {
 	private static final int MULTI_BUFFER_COUNT = 2;
 	private static final long serialVersionUID = 2558753416113591206L;
 	private final DoubleBufferCanvas3D canvas;
+	private final List<DisposeListener> disposables = new LinkedList<DisposeListener>();
 
 	public InstantCanvasWindow(int width, int height) {
 		setResizable(false);
@@ -32,9 +34,20 @@ public class InstantCanvasWindow extends JFrame {
 		return canvas;
 	}
 
+	public void addDisposeListener(DisposeListener l) {
+		disposables.add(l);
+	}
+
+	public void removeDisposeListener(DisposeListener l) {
+		disposables.remove(l);
+	}
+
 	@Override
 	public void dispose() {
 		super.dispose();
 		canvas.dispose();
+		for (DisposeListener l : disposables) {
+			l.dispose();
+		}
 	}
 }

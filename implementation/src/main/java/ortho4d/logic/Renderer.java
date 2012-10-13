@@ -3,6 +3,8 @@ package ortho4d.logic;
 import java.util.LinkedList;
 import java.util.List;
 
+import ortho4d.gui.DisposeListener;
+
 /**
  * This is the renderer, which can do a single step of "rendering" at a time.<br>
  * <br>
@@ -21,11 +23,14 @@ import java.util.List;
  * that only cares about the work of rendering. This thread may call into
  * doCycle() and therefore trigger all the rendering.
  */
-public class Renderer {
+public class Renderer implements Runnable, DisposeListener {
 	private final Canvas3D canvas;
 	private final Camera camera;
 	private final RenderableQueue queue;
 	private final List<Entity> rootEntities;
+	private final int delay;
+
+	private volatile boolean haltAfterCycle = false;
 
 	/**
 	 * Creates a new Renderer, using the provided structures.<br>
@@ -46,10 +51,15 @@ public class Renderer {
 	 *            the "root" entities used for rendering. Note that you can
 	 *            easily write custom, efficient Entity containers that can
 	 *            addEntity() and stuff
+	 * @param delay
+	 *            the amount of milliseconds to wait between cycles, or
+	 *            non-positive to "not wait at all"
 	 */
-	public Renderer(Canvas3D canvas, Camera camera, List<Entity> rootEntities) {
+	public Renderer(Canvas3D canvas, Camera camera, List<Entity> rootEntities,
+			int delay) {
 		this.canvas = canvas;
 		this.camera = camera;
+		this.delay = delay;
 		this.rootEntities = new LinkedList<Entity>(rootEntities);
 		queue = canvas.createQueue();
 	}
@@ -72,5 +82,28 @@ public class Renderer {
 		canvas.cycleComplete();
 		camera.cycleComplete();
 		queue.clear();
+	}
+
+	@Override
+	public void run() {
+		while (!haltAfterCycle) {
+			doCycle();
+			if (delay > 0) {
+				yield(delay);
+			}
+		}
+	}
+	
+	@Override
+	public void dispose() {
+		haltAfterCycle = true;
+	}
+
+	private static final void yield(long ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			System.out.println("Interrupted?!");
+		}
 	}
 }
