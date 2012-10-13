@@ -26,7 +26,7 @@ public final class CameraController implements MouseListener,
 	private static final double ALPHA_BETA_MULTIPLIER = Math.PI / 700;
 
 	// Either <30 or >170
-	private static final double DISTANCE = 15;
+	private static final double DISTANCE = 250;
 
 	private final RotationalCamera cam;
 	private final Point dragStart = new Point();
@@ -40,7 +40,7 @@ public final class CameraController implements MouseListener,
 
 	public CameraController(RotationalCamera cam) {
 		this.cam = cam;
-		tmp.w = DISTANCE;
+		tmp.w = -DISTANCE;
 		cam.moveTo(tmp);
 		cam.commit();
 	}
@@ -118,8 +118,10 @@ public final class CameraController implements MouseListener,
 
 	private void updateLocation() {
 		tmp.x = tmp.y = tmp.z = 0;
-		tmp.w = DISTANCE;
+		tmp.w = -DISTANCE;
+		// FIXME: Wrong!
 		cam.getCurrentMatrix().times(tmp, tmp);
+		// TODO: Debug angles
 		cam.moveTo(tmp);
 	}
 }

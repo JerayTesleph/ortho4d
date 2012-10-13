@@ -62,7 +62,12 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 
 	public final void add(Rectangle2D clip, Rectangle2D relevant, double minZ,
 			double maxZ) {
-		add(new SingleGraphicsCanvas2D(clip, relevant, minZ, maxZ, g));
+		add(new SingleGraphicsCanvas2D(clip, relevant, minZ, maxZ, g, clip.toString()));
+	}
+	
+	public final void add(Rectangle2D clip, Rectangle2D relevant, double minZ,
+			double maxZ, String debugInfo) {
+		add(new SingleGraphicsCanvas2D(clip, relevant, minZ, maxZ, g, debugInfo));
 	}
 
 	protected final void add(SingleGraphicsCanvas2D c) {
@@ -91,7 +96,7 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 	}
 
 	@Override
-	public final Collection<? extends Canvas2D> getAllCanvases() {
+	public final Collection<SingleGraphicsCanvas2D> getAllCanvases() {
 		return Collections.unmodifiableCollection(canvases.values());
 	}
 

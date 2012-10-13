@@ -26,7 +26,7 @@ public final class DemoStarter implements Runnable {
 
 		// Run!
 		Renderer r = new Renderer(win.getCanvas(), controller.getCamera(),
-				rootEntities, 100);
+				rootEntities, 1000);
 		GridSlicer.addSlices(4, 3, win.getCanvas(), win.getBounds());
 		win.addDisposeListener(r);
 		new Thread(r).start();

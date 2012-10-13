@@ -29,7 +29,7 @@ public final class GridSlicer {
 				sliceNr++;
 				final double zEnd = minZ + zStep * sliceNr;
 
-				c.add(clip, relevant, zStart, zEnd);
+				c.add(clip, relevant, zStart, zEnd, x+"x"+y);
 			}
 		}
 	}

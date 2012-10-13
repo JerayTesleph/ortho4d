@@ -57,7 +57,6 @@ public final class Hypersphere implements Renderable {
 		int count = 0;
 		
 		for (Canvas2D c : relevant) {
-			final Graphics2D g = c.prepare();
 			final double intersectionZ;
 
 			// In any case, display the biggest radius
@@ -98,11 +97,12 @@ public final class Hypersphere implements Renderable {
 			final double radius = Math.sqrt(sqRadius);
 
 			// Yayy orthogonal projection
+			final Graphics2D g = c.prepare();
 			g.translate(center.x, center.y);
 			g.setColor(color);
 			g.scale(radius, radius);
-
 			g.fillOval(0, 0, 1, 1);
+			
 			count++;
 		}
 		
