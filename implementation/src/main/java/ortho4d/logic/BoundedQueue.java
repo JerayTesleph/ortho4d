@@ -20,8 +20,8 @@ public class BoundedQueue extends RenderableQueue {
 		bounds.clamp(tmp);
 		tmp.minus(r.getCenter());
 		
-		final double distance = tmp.getQuareLength();
-		final double size = r.getSquaredRadius();
+		final double distance = tmp.getSquareLength();
+		final double size = r.getSquareRadius();
 		
 		return distance <= EPSILON || distance < size;
 	}

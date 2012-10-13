@@ -79,7 +79,7 @@ public final class Vector {
 		w = other.w;
 	}
 
-	public double getQuareLength() {
+	public double getSquareLength() {
 		return (x * x) + (y * y) + (z * z) + (w * w);
 	}
 }

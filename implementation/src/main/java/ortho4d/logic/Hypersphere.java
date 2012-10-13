@@ -102,7 +102,7 @@ public class Hypersphere implements Renderable {
 	}
 
 	@Override
-	public double getSquaredRadius() {
+	public double getSquareRadius() {
 		return sqSize;
 	}
 }
