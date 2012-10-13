@@ -1,11 +1,13 @@
 package ortho4d.logic;
 
+import ortho4d.math.RotationalMatrix;
 import ortho4d.math.Vector;
 
 public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
 	private static final double PI_2 = Math.PI / 2;
 
 	private double alpha, beta, gamma;
+	private boolean matrixValid = false;
 
 	public RotationalCamera() {
 		super(new RotationalConfig());
@@ -16,15 +18,20 @@ public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
 		getControlledConfiguration().getOrigin().plus(v);
 	}
 
+	public void moveTo(Vector v) {
+		getControlledConfiguration().getOrigin().set(v);
+	}
+
 	public void modifyAlpha(double diff) {
+		matrixValid = false;
 		alpha += diff;
 		// Very important, this way you can't accidentally
 		// "look so far up that you look behind yourself"
 		alpha = Math.min(PI_2, Math.max(-PI_2, alpha));
-		updateMatrix();
 	}
 
 	public void modifyBeta(double diff) {
+		matrixValid = false;
 		beta += diff;
 		// Not important, only prevents loss of precision
 		// (After turning around 20000 times)
@@ -32,6 +39,7 @@ public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
 	}
 
 	public void modifyGamma(double diff) {
+		matrixValid = false;
 		gamma += diff;
 		// Not important, only prevents loss of precision
 		// (After turning around 20000 times)
@@ -45,7 +53,20 @@ public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
 		getControlledConfiguration().getMatrix().setValues(0, 0, 0);
 	}
 	
-	private final void updateMatrix() {
-		getControlledConfiguration().getMatrix().setValues(alpha, beta, gamma);
+	private void updateMatrix() {
+		if (!matrixValid) {
+			matrixValid = true;
+			getControlledConfiguration().getMatrix().setValues(alpha, beta, gamma);
+		}
+	}
+	
+	public RotationalMatrix getCurrentMatrix() {
+		updateMatrix();
+		return getControlledConfiguration().getMatrix();
+	}
+	
+	public void commit() {
+		updateMatrix();
+		swapInto();
 	}
 }
