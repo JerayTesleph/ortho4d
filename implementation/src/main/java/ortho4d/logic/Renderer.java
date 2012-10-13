@@ -3,7 +3,6 @@ package ortho4d.logic;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  * This is the renderer, which can do a single step of "rendering" at a time.<br>
  * <br>

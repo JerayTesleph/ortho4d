@@ -42,6 +42,7 @@ public class DoubleBufferCanvas3D extends SingleGraphicsCanvas3D {
 	@Override
 	public void cycleComplete() {
 		if (!buffersLost) {
+			doAfterpainting();
 			bufferStrategy.show();
 		}
 		getCurrentGraphics().dispose();

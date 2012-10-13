@@ -15,6 +15,7 @@ public class InstantCanvasWindow extends JFrame {
 		setIgnoreRepaint(true);
 		setSize(width, height);
 		setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// device.setFullScreenWindow(mainFrame);
 		// if (device.isDisplayChangeSupported()) {

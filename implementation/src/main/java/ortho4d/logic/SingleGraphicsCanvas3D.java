@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeMap;
 
 import ortho4d.math.Vector;
@@ -12,6 +14,7 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 	private final TreeMap<Double, SingleGraphicsCanvas2D> canvases = new TreeMap<Double, SingleGraphicsCanvas2D>();
 	private final AABB bounds;
 	private final Vector tmp;
+	private final List<AfterPainter> painters = new LinkedList<AfterPainter>();
 	private Graphics2D g;
 
 	public SingleGraphicsCanvas3D(Graphics2D g) {
@@ -19,6 +22,18 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 		bounds = new AABB();
 		tmp = new Vector();
 		tmp.w = 0;
+	}
+	
+	public void addPainter(AfterPainter p) {
+		painters.add(p);
+	}
+	
+	public void removePainter(AfterPainter p) {
+		painters.remove(p);
+	}
+	
+	public void clearAfterpainters() {
+		painters.clear();
 	}
 	
 	@SuppressWarnings("synthetic-access")
@@ -79,6 +94,12 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 	public final RenderableQueue createQueue() {
 		return new BoundedQueue(bounds);
 	}
+	
+	protected final void doAfterpainting() {
+		for (AfterPainter p : painters) {
+			p.paint(g);
+		}
+	}
 
 	@Override
 	public abstract void cycleComplete();
@@ -98,5 +119,9 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 		private void setSightRange(double maxW) {
 			max.w = maxW;
 		}
+	}
+	
+	public static interface AfterPainter {
+		public void paint(Graphics2D g);
 	}
 }
