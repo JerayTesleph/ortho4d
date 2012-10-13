@@ -5,6 +5,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>4D Orthogonal Renderer</name>
   <description>4D Orthogonal Renderer, see http://www.youtube.com/watch_popup?v=9VS1mwEV9wA</description>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <build>
     <pluginManagement>
       <plugins>

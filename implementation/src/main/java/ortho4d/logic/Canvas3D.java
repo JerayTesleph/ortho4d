@@ -21,6 +21,8 @@ public interface Canvas3D {
 	 */
 	Collection<? extends Canvas2D> getRelevantCanvases(double fromZ, double toZ);
 
+	Collection<? extends Canvas2D> getAllCanvases();
+
 	/**
 	 * Creates and returns a new RenderableQueue object, with its isOkay()
 	 * method specialized and optimized for this Canvas3D instance.<br>

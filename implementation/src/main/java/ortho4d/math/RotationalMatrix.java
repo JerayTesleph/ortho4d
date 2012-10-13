@@ -146,15 +146,38 @@ package ortho4d.math;
  * perpendicular to each other (as defined by the scalar product)</li></ul> This
  * sounds pretty much correct.
  */
-public class RotationalMatrix extends Matrix {
+public final class RotationalMatrix extends Matrix {
 	/*
 	 * The naming convention is: From left to right, the first increases. From
 	 * top to bottom, the second index increases.
 	 */
-	private final double xx, yx, /* zx=0 */wx, /* xy=0 */yy, /* zy=0 */wy, xz, yz,
-			zz, wz, xw, yw, zw, ww;
+	private double xx, yx, /* zx=0 */wx, /* xy=0 */yy, /* zy=0 */wy, xz, yz, zz,
+			wz, xw, yw, zw, ww;
 
-	public RotationalMatrix(double alpha, double beta, double gamma) {
+	public RotationalMatrix() {
+		yx = wx = wy = xz = yz = wz = xw = yw = zw = 0;
+
+		xx = yy = zz = ww = 1;
+	}
+
+	public void setValues(RotationalMatrix other) {
+		this.xx = other.xx;
+		this.yx = other.yx;
+		this.wx = other.wx;
+		this.yy = other.yy;
+		this.wy = other.wy;
+		this.xz = other.xz;
+		this.yz = other.yz;
+		this.zz = other.zz;
+		this.wz = other.wz;
+		this.xw = other.xw;
+		this.yw = other.yw;
+		this.zw = other.zw;
+		this.ww = other.ww;
+	}
+
+	public void setValues(final double alpha, final double beta,
+			final double gamma) {
 		// Hard-coded 4D rotational matrix.
 		// Do not try to understand this before understanding above javadoc
 		// table. (Hint: Look at the rendered version)
