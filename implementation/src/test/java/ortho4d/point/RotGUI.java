@@ -12,9 +12,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ortho4d.math.Vector;
-import ortho4d.point.CoordinatePreview.Coordinate;
-import ortho4d.point.CoordinatePreview.RevertingCoordinate;
-import ortho4d.point.CoordinatePreview.SimpleCoordinate;
+import ortho4d.point.CoordinatePreview.ColoredSphere;
+import ortho4d.point.CoordinatePreview.CoordRevertingSphere;
+import ortho4d.point.CoordinatePreview.SimpleSphere;
 
 public final class RotGUI implements ChangeListener {
 	private final RotPanel panel;
@@ -31,9 +31,9 @@ public final class RotGUI implements ChangeListener {
 		prevWZ = new CoordinatePreview();
 		panel.setPreviewWZ(prevWZ);
 
-		for (Coordinate c : calc.getCoordinates()) {
+		for (ColoredSphere c : calc.getCoordinates()) {
 			prevXY.add(c);
-			prevWZ.add(new RevertingCoordinate(c));
+			prevWZ.add(new CoordRevertingSphere(c));
 		}
 
 		panel.getAlpha().addChangeListener(this);
@@ -76,22 +76,22 @@ public final class RotGUI implements ChangeListener {
 			private final Calculator buildCalculator() {
 //				return new SingleWCalculator();
 				
-				List<SimpleCoordinate> coordinates = new LinkedList<SimpleCoordinate>();
-				SimpleCoordinate c;
+				List<SimpleSphere> coordinates = new LinkedList<SimpleSphere>();
+				SimpleSphere c;
 				
-				c = new SimpleCoordinate(new Vector(1, 0, 0, 0));
+				c = new SimpleSphere(new Vector(1, 0, 0, 0));
 				c.setColor(Color.RED);
 				coordinates.add(c);
 				
-				c = new SimpleCoordinate(new Vector(0, 1, 0, 0));
+				c = new SimpleSphere(new Vector(0, 1, 0, 0));
 				c.setColor(Color.GREEN);
 				coordinates.add(c);
 				
-				c = new SimpleCoordinate(new Vector(0, 0, 1, 0));
+				c = new SimpleSphere(new Vector(0, 0, 1, 0));
 				c.setColor(Color.BLUE);
 				coordinates.add(c);
 				
-				c = new SimpleCoordinate(new Vector(0, 0, 0, 1));
+				c = new SimpleSphere(new Vector(0, 0, 0, 1));
 				c.setColor(Color.ORANGE);
 				coordinates.add(c);
 				
@@ -109,6 +109,6 @@ public final class RotGUI implements ChangeListener {
 	public static interface Calculator {
 		void plug(double alpha, double beta, double gamma);
 
-		List<? extends Coordinate> getCoordinates();
+		List<? extends ColoredSphere> getCoordinates();
 	}
 }

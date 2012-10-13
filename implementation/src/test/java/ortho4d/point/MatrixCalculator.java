@@ -6,39 +6,40 @@ import java.util.List;
 
 import ortho4d.math.RotationalMatrix;
 import ortho4d.math.Vector;
-import ortho4d.point.CoordinatePreview.BackedCoordinate;
-import ortho4d.point.CoordinatePreview.Coordinate;
+import ortho4d.point.CoordinatePreview.DelegateSphere;
+import ortho4d.point.CoordinatePreview.ColoredSphere;
 import ortho4d.point.RotGUI.Calculator;
 
 public class MatrixCalculator implements Calculator {
-	private final List<MatrixCoordinate> coordinates;
+	private final List<MatrixSphere> coordinates;
+	private final RotationalMatrix m = new RotationalMatrix();
 	
-	public MatrixCalculator(List<? extends Coordinate> coordinates) {
-		this.coordinates = new LinkedList<MatrixCoordinate>();
+	public MatrixCalculator(List<? extends ColoredSphere> coloredSpheres) {
+		this.coordinates = new LinkedList<MatrixSphere>();
 		
-		for (Coordinate c : coordinates) {
-			this.coordinates.add(new MatrixCoordinate(c));
+		for (ColoredSphere c : coloredSpheres) {
+			this.coordinates.add(new MatrixSphere(c));
 		}
 	}
 
 	@Override
 	public void plug(double alpha, double beta, double gamma) {
-		final RotationalMatrix m = new RotationalMatrix(alpha, beta, gamma);
+		m.setValues(alpha, beta, gamma);
 		
-		for (MatrixCoordinate mc : coordinates) {
+		for (MatrixSphere mc : coordinates) {
 			mc.apply(m);
 		}
 	}
 
 	@Override
-	public List<MatrixCoordinate> getCoordinates() {
+	public List<MatrixSphere> getCoordinates() {
 		return coordinates;
 	}
 	
-	public static final class MatrixCoordinate extends BackedCoordinate {
+	public static final class MatrixSphere extends DelegateSphere {
 		private final Vector dummy = new Vector();
 
-		public MatrixCoordinate(Coordinate backing) {
+		public MatrixSphere(ColoredSphere backing) {
 			super(backing);
 		}
 		

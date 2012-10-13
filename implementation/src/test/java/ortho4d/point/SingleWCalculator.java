@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 import ortho4d.math.Vector;
-import ortho4d.point.CoordinatePreview.Coordinate;
-import ortho4d.point.CoordinatePreview.SimpleCoordinate;
+import ortho4d.point.CoordinatePreview.ColoredSphere;
+import ortho4d.point.CoordinatePreview.SimpleSphere;
 import ortho4d.point.RotGUI.Calculator;
 
 public final class SingleWCalculator implements Calculator {
@@ -41,8 +41,8 @@ public final class SingleWCalculator implements Calculator {
 	}
 
 	@Override
-	public List<Coordinate> getCoordinates() {
-		Coordinate c = new SimpleCoordinate(v);
+	public List<ColoredSphere> getCoordinates() {
+		ColoredSphere c = new SimpleSphere(v);
 		return Collections.singletonList(c);
 	}
 }

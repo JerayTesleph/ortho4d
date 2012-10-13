@@ -217,12 +217,6 @@ public final class RotationalMatrix extends Matrix {
 	}
 
 	@Override
-	public Vector times(Vector with) {
-		final Vector ret = new Vector();
-		times(with, ret);
-		return ret;
-	}
-
 	public void times(Vector with, Vector ret) {
 		ret.x = xx * with.x + yx * with.y + /* zx * with.z + */wx * with.w;
 		ret.y = /* xy * with.x + */yy * with.y + /* zy * with.z + */wy * with.w;

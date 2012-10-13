@@ -7,5 +7,12 @@ package ortho4d.math;
  */
 public abstract class Matrix {
 	// public abstract Matrix times(Matrix m);
-	public abstract Vector times(Vector with);
+
+	public Vector times(Vector with) {
+		final Vector ret = new Vector();
+		times(with, ret);
+		return ret;
+	}
+
+	public abstract void times(Vector with, Vector into);
 }

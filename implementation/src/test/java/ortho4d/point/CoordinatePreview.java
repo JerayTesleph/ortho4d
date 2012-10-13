@@ -19,7 +19,7 @@ public class CoordinatePreview extends JComponent {
 
 	private final double scaling;
 	private final int roundedUpRadius;
-	private final List<Coordinate> coordinates = new LinkedList<Coordinate>();
+	private final List<ColoredSphere> coloredSpheres = new LinkedList<ColoredSphere>();
 
 	public CoordinatePreview() {
 		this(100);
@@ -33,8 +33,8 @@ public class CoordinatePreview extends JComponent {
 		setPreferredSize(dim);
 	}
 
-	public void add(Coordinate v) {
-		coordinates.add(v);
+	public void add(ColoredSphere v) {
+		coloredSpheres.add(v);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class CoordinatePreview extends JComponent {
 
 		// Draw marker
 		AffineTransform centered = g2d.getTransform();
-		for (Coordinate c : coordinates) {
+		for (ColoredSphere c : coloredSpheres) {
 			g2d.setTransform(centered);
 			g2d.setColor(c.getColor());
 			Vector v = c.getVector();
@@ -72,7 +72,7 @@ public class CoordinatePreview extends JComponent {
 		g2d.setTransform(at);
 	}
 
-	public static interface Coordinate {
+	public static interface ColoredSphere {
 		public abstract Vector getVector();
 
 		// Should be divisible by 2, otherwise the display is 1 pixel off
@@ -81,10 +81,10 @@ public class CoordinatePreview extends JComponent {
 		public abstract Color getColor();
 	}
 	
-	public static abstract class BackedCoordinate implements Coordinate {
-		protected final Coordinate backing;
+	public static abstract class DelegateSphere implements ColoredSphere {
+		protected final ColoredSphere backing;
 
-		public BackedCoordinate(Coordinate backing) {
+		public DelegateSphere(ColoredSphere backing) {
 			this.backing = backing;
 		}
 
@@ -99,10 +99,10 @@ public class CoordinatePreview extends JComponent {
 		}
 	}
 
-	public static final class RevertingCoordinate extends BackedCoordinate {
+	public static final class CoordRevertingSphere extends DelegateSphere {
 		private final Vector dummy = new Vector();
 
-		public RevertingCoordinate(Coordinate backing) {
+		public CoordRevertingSphere(ColoredSphere backing) {
 			super(backing);
 		}
 
@@ -127,13 +127,13 @@ public class CoordinatePreview extends JComponent {
 		}
 	}
 
-	public static final class SimpleCoordinate implements Coordinate {
+	public static final class SimpleSphere implements ColoredSphere {
 		private Color c = new Color(128, 0, 0);
 		// Should be divisible by 2, otherwise the display is 1 pixel off
 		private int radius = 6;
 		private final Vector v;
 
-		public SimpleCoordinate(Vector v) {
+		public SimpleSphere(Vector v) {
 			this.v = v;
 		}
 
