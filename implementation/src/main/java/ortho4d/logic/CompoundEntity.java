@@ -32,36 +32,36 @@ public class CompoundEntity implements Entity {
 			e.registerRenderables(q, c);
 		}
 	}
-	
+
 	public static final Entity createCoordEntity() {
 		return createCoordEntity(100, 70);
 	}
-	
+
 	public static final Entity createCoordEntity(double distance, int radius) {
 		final CompoundEntity ret = new CompoundEntity();
-		
+
 		SimpleSphere c;
-		
+
 		c = new SimpleSphere(new Vector(distance, 0, 0, 0));
 		c.setRadius(radius);
 		c.setColor(Color.RED);
 		ret.add(new SphereEntity(c));
-		
+
 		c = new SimpleSphere(new Vector(0, distance, 0, 0));
-		c.setRadius(radius);
+		c.setRadius(radius + 1);
 		c.setColor(Color.GREEN);
 		ret.add(new SphereEntity(c));
-		
+
 		c = new SimpleSphere(new Vector(0, 0, distance, 0));
-		c.setRadius(radius);
+		c.setRadius(radius + 2);
 		c.setColor(Color.BLUE);
 		ret.add(new SphereEntity(c));
-		
+
 		c = new SimpleSphere(new Vector(0, 0, 0, distance));
-		c.setRadius(radius);
+		c.setRadius(radius + 3);
 		c.setColor(Color.ORANGE);
 		ret.add(new SphereEntity(c));
-		
+
 		return ret;
 	}
 }

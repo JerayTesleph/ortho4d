@@ -82,4 +82,23 @@ public final class Vector {
 	public double getSquareLength() {
 		return (x * x) + (y * y) + (z * z) + (w * w);
 	}
+	
+	public void append(StringBuilder sb) {
+		sb.append('[');
+		sb.append(Double.toString(x));
+		sb.append(',');
+		sb.append(Double.toString(y));
+		sb.append(',');
+		sb.append(Double.toString(z));
+		sb.append(',');
+		sb.append(Double.toString(w));
+		sb.append(']');
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		append(sb);
+		return sb.toString();
+	}
 }

@@ -3,6 +3,7 @@ package ortho4d.logic;
 import java.util.LinkedList;
 import java.util.List;
 
+import ortho4d.Logger;
 import ortho4d.gui.DisposeListener;
 
 /**
@@ -24,6 +25,8 @@ import ortho4d.gui.DisposeListener;
  * doCycle() and therefore trigger all the rendering.
  */
 public class Renderer implements Runnable, DisposeListener {
+	private static final boolean DEBUG = true;
+	
 	private final Canvas3D canvas;
 	private final Camera camera;
 	private final RenderableQueue queue;
@@ -82,6 +85,10 @@ public class Renderer implements Runnable, DisposeListener {
 		canvas.cycleComplete();
 		camera.cycleComplete();
 		queue.clear();
+		
+		if (DEBUG) {
+			Logger.println("Cycle complete");
+		}
 	}
 
 	@Override

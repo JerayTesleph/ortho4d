@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Collection;
 
+import ortho4d.Logger;
 import ortho4d.math.Vector;
 
 /**
@@ -11,7 +12,9 @@ import ortho4d.math.Vector;
  * Note that the methods setSize(), setColor() etc. may only be called if the
  * caller "knows" that the last cycle has ended.
  */
-public class Hypersphere implements Renderable {
+public final class Hypersphere implements Renderable {
+	private static final boolean DEBUG = true;
+	
 	private final Vector center = new Vector();
 	private double size = 10, sqSize = 100;
 	private Color color = Color.RED;
@@ -30,7 +33,7 @@ public class Hypersphere implements Renderable {
 
 	public void setSize(double size) {
 		this.size = size;
-		sqSize = size*size;
+		sqSize = size * size;
 	}
 
 	public void setCenter(Vector center) {
@@ -51,6 +54,8 @@ public class Hypersphere implements Renderable {
 	public void render(Canvas3D c3d) {
 		final Collection<? extends Canvas2D> relevant = c3d
 				.getRelevantCanvases(center.z - size, center.z + size);
+		int count = 0;
+		
 		for (Canvas2D c : relevant) {
 			final Graphics2D g = c.prepare();
 			final double intersectionZ;
@@ -98,11 +103,27 @@ public class Hypersphere implements Renderable {
 			g.scale(radius, radius);
 
 			g.fillOval(0, 0, 1, 1);
+			count++;
+		}
+		
+		if (DEBUG) {
+			Logger.println("Rendered on "+count+" canvases", this.toString());
 		}
 	}
 
 	@Override
 	public double getSquareRadius() {
 		return sqSize;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Hypersphere@");
+		center.append(sb);
+		sb.append('(');
+		sb.append(Double.toString(size));
+		sb.append(')');
+		return sb.toString();
 	}
 }

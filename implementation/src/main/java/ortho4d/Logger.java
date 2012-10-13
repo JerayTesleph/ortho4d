@@ -32,13 +32,15 @@ public final class Logger {
 		final StringBuilder sb = new StringBuilder();
 		
 		sb.append(e.getClassName());
+		sb.append('.');
 		sb.append(e.getMethodName());
-		sb.append('(');
+		sb.append("(line ");
 		sb.append(e.getLineNumber());
-		sb.append(": ");
+		sb.append("): ");
 		sb.append(Arrays.toString(strings));
 		sb.append(" -- on thread: ");
 		sb.append(Thread.currentThread().getName());
+		sb.append(", ID = ");
 		sb.append(Thread.currentThread().getId());
 		OUT.println(sb.toString());
 	}

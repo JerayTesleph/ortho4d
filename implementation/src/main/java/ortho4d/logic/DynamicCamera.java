@@ -1,6 +1,6 @@
 package ortho4d.logic;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
 import ortho4d.math.Matrix;
 import ortho4d.math.Vector;
@@ -24,17 +24,18 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 	/**
 	 * The main communication interface between the rendering thread and the
 	 * controller thread. If the controller wants to "push" his changes, he
-	 * simply updates this reference.<br>
-	 * This only gets complicated because we have to make sure:
+	 * simply updates this reference, and sets the stamp to "1".<br>
+	 * The renderer swaps its instance if and only if the stamp is "1", and sets
+	 * the stamp to "0". This is to prevent "jumping forth and back", when the
+	 * camera has moved, but the controller isn't updating things anymore.<br>
+	 * <br>
+	 * This implementation also achieves these two goals:
 	 * <ul>
-	 * <li>An object isn't updated after swapping</li>
-	 * <li>Aaand: I want to re-use objects as often as possible.</li>
+	 * <li>An object may not be modified after swapping</li>
+	 * <li>I want to re-use objects as often as possible.</li>
 	 * </ul>
-	 * Of course, each would be easy to achieve without the other.<br>
-	 * Currently, exactly three Configuration instances are created. Ever.
-	 * Except maybe the matrices, but that's not avoidable -- or is it?
 	 */
-	private final AtomicReference<C> nextConf;
+	private final AtomicStampedReference<C> nextConf;
 
 	private C controlledConf;
 	private C renderingConf;
@@ -42,7 +43,7 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 	protected DynamicCamera(C initialConf) {
 		controlledConf = initialConf;
 		renderingConf = initialConf.copy();
-		nextConf = new AtomicReference<C>(initialConf.copy());
+		nextConf = new AtomicStampedReference<C>(initialConf.copy(), 0);
 	}
 
 	@Override
@@ -55,18 +56,23 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 		return renderingConf.getMatrix();
 	}
 
-//	/**
-//	 * Subclasses may override this to "finish up" and push their Configuration
-//	 */
-//	protected void finishConfig() {
-//		// Nothing to do here
-//	}
-
 	@Override
 	public final void cycleComplete() {
-//		finishConfig();
+		if (nextConf.getStamp() == 0) {
+			// current data is newer than nextConf
+			// old data is uninteresting
+			return;
+		}
+
 		// Swap renderingConf <--> nextConf
-		renderingConf = nextConf.getAndSet(renderingConf);
+		// Since we now know that there is "new" data available
+
+		C nextConfContent;
+		do {
+			nextConfContent = nextConf.getReference();
+		} while (!nextConf.compareAndSet(nextConfContent, renderingConf, 1, 0));
+
+		renderingConf = nextConfContent;
 	}
 
 	/**
@@ -75,12 +81,25 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 	 */
 	protected final void swapInto() {
 		// Swap controlledConf <--> nextConf
-		C newControlledConf = nextConf.getAndSet(controlledConf);
+		// (unconditionally)
+
+		C nextConfContent;
+		int nextConfStamp;
+		do {
+			nextConfContent = nextConf.getReference();
+			// If the data gets out-of-data mid-air, we'll notice
+			nextConfStamp = nextConf.getStamp();
+		} while (!nextConf.compareAndSet(nextConfContent, controlledConf,
+				nextConfStamp, 1));
 
 		// But make sure that the data isn't lost
-		// newControlledConf.setMatrix(controlledConf.getMatrix());
-		newControlledConf.getOrigin().set(controlledConf.getOrigin());
-		controlledConf = newControlledConf;
+		// May access data since renderer may not modify CONTENT of this object
+		// ... even if the renderer already has swapped objects and is using
+		// this right now:
+		nextConfContent.setMatrix(controlledConf);
+		nextConfContent.getOrigin().set(controlledConf.getOrigin());
+
+		controlledConf = nextConfContent;
 	}
 
 	protected final C getControlledConfiguration() {

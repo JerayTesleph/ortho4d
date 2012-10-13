@@ -21,5 +21,8 @@ public class SphereEntity implements Entity {
 		v.set(backing.getVector());
 		v.minus(c.getOrigin());
 		c.getMatrix().times(v, v);
+		// Modifying v has side effects on renderable
+		
+		q.add(renderable);
 	}
 }

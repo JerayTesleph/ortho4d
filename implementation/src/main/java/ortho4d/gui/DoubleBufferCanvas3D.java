@@ -7,15 +7,19 @@ import java.awt.image.BufferStrategy;
 import java.util.Collection;
 import java.util.Collections;
 
+import ortho4d.Logger;
 import ortho4d.logic.Canvas2D;
 import ortho4d.logic.SingleGraphicsCanvas3D;
 
 public class DoubleBufferCanvas3D extends SingleGraphicsCanvas3D {
 	private static final Collection<Canvas2D> EMPTY = Collections.emptyList();
+	private static final boolean DEBUG = true;
+	
 	private final BufferStrategy bufferStrategy;
-	private boolean buffersLost = false;
 	private final int height;
 	private final int width;
+	
+	private boolean buffersLost = false;
 
 	public DoubleBufferCanvas3D(BufferStrategy bufferStrategy, int width, int height) {
 		super(getGraphics(bufferStrategy));
@@ -50,6 +54,11 @@ public class DoubleBufferCanvas3D extends SingleGraphicsCanvas3D {
 		if (!buffersLost) {
 			doAfterpainting();
 			bufferStrategy.show();
+		}
+		if (DEBUG) {
+			if (bufferStrategy.contentsLost()) {
+				Logger.println("DAMN contents lost :-(");
+			}
 		}
 		getCurrentGraphics().dispose();
 
