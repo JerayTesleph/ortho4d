@@ -22,6 +22,8 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 		bounds = new AABB();
 		tmp = new Vector();
 		tmp.w = 0;
+		setSightRange(2000);
+		prepareGraphics();
 	}
 	
 	public void addPainter(AfterPainter p) {
@@ -53,7 +55,10 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 		for (SingleGraphicsCanvas2D c : canvases.values()) {
 			c.setGraphics(g);
 		}
+		prepareGraphics();
 	}
+	
+	protected abstract void prepareGraphics();
 
 	public final void add(Rectangle2D clip, Rectangle2D relevant, double minZ,
 			double maxZ) {

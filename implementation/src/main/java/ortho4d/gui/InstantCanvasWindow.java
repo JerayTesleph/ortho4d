@@ -27,7 +27,7 @@ public class InstantCanvasWindow extends JFrame {
 		// }
 
 		createBufferStrategy(MULTI_BUFFER_COUNT);
-		canvas = new DoubleBufferCanvas3D(getBufferStrategy());
+		canvas = new DoubleBufferCanvas3D(getBufferStrategy(), width, height);
 	}
 
 	public DoubleBufferCanvas3D getCanvas() {

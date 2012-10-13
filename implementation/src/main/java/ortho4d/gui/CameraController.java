@@ -25,7 +25,8 @@ public final class CameraController implements MouseListener,
 	// "Math.PI / 700" means "700 pixel per 180 degree"
 	private static final double ALPHA_BETA_MULTIPLIER = Math.PI / 700;
 
-	private static final double DISTANCE = 100;
+	// Either <30 or >170
+	private static final double DISTANCE = 15;
 
 	private final RotationalCamera cam;
 	private final Point dragStart = new Point();

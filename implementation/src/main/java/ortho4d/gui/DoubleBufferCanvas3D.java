@@ -1,5 +1,6 @@
 package ortho4d.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
@@ -13,10 +14,15 @@ public class DoubleBufferCanvas3D extends SingleGraphicsCanvas3D {
 	private static final Collection<Canvas2D> EMPTY = Collections.emptyList();
 	private final BufferStrategy bufferStrategy;
 	private boolean buffersLost = false;
+	private final int height;
+	private final int width;
 
-	public DoubleBufferCanvas3D(BufferStrategy bufferStrategy) {
+	public DoubleBufferCanvas3D(BufferStrategy bufferStrategy, int width, int height) {
 		super(getGraphics(bufferStrategy));
 		this.bufferStrategy = bufferStrategy;
+		this.width = width;
+		this.height = height;
+		
 		buffersLost = bufferStrategy.contentsLost();
 	}
 
@@ -57,5 +63,16 @@ public class DoubleBufferCanvas3D extends SingleGraphicsCanvas3D {
 	public void dispose() {
 		getCurrentGraphics().dispose();
 		bufferStrategy.dispose();
+	}
+
+	@Override
+	protected void prepareGraphics() {
+		Graphics2D g = getCurrentGraphics();
+		
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, width+5, height+5);
+		
+		g.setColor(Color.RED);
+		g.drawRect(0, 0, width-1, height-1);
 	}
 }

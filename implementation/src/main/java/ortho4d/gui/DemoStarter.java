@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 
 import ortho4d.logic.CompoundEntity;
 import ortho4d.logic.Entity;
+import ortho4d.logic.GridSlicer;
 import ortho4d.logic.Renderer;
 
 public final class DemoStarter implements Runnable {
@@ -26,6 +27,7 @@ public final class DemoStarter implements Runnable {
 		// Run!
 		Renderer r = new Renderer(win.getCanvas(), controller.getCamera(),
 				rootEntities, 100);
+		GridSlicer.addSlices(4, 3, win.getCanvas(), win.getBounds());
 		win.addDisposeListener(r);
 		new Thread(r).start();
 	}
