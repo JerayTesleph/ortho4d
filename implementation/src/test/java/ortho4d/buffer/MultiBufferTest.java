@@ -19,7 +19,7 @@ public class MultiBufferTest {
 			new DisplayMode(640, 480, 32, 0), new DisplayMode(640, 480, 16, 0),
 			new DisplayMode(640, 480, 8, 0) };
 
-	Frame mainFrame;
+	Frame mainFrame = null;
 
 	public MultiBufferTest(int numBuffers, GraphicsDevice device) {
 		System.out.println("Using device " + device);
@@ -28,7 +28,7 @@ public class MultiBufferTest {
 			System.out.println("Using config " + gc);
 			mainFrame = new Frame(gc);
 			mainFrame.setResizable(false);
-			mainFrame.setUndecorated(true);
+//			mainFrame.setUndecorated(true);
 			mainFrame.setIgnoreRepaint(true);
 			mainFrame.setSize(640, 480);
 			mainFrame.setVisible(true);
@@ -38,7 +38,7 @@ public class MultiBufferTest {
 //			} else {
 //				System.out.println("Change not supported");
 //			}
-			Rectangle bounds = mainFrame.getBounds();
+			final Rectangle bounds = mainFrame.getBounds();
 			System.out.println("bounds = " + bounds);
 			mainFrame.createBufferStrategy(numBuffers);
 			BufferStrategy bufferStrategy = mainFrame.getBufferStrategy();
@@ -51,9 +51,11 @@ public class MultiBufferTest {
 						g.fillRect(0, 0, bounds.width, bounds.height);
 						g.setColor(Color.WHITE);
 						g.drawRect(5, 5, 630, 470);
+						g.setColor(Color.YELLOW);
+						g.drawRect(6, bounds.y+5, 629, 470);
 						bufferStrategy.show();
-						g.dispose();
 					}
+					g.dispose();
 					try {
 						Thread.sleep((int) lag);
 					} catch (InterruptedException e) {
@@ -65,6 +67,9 @@ public class MultiBufferTest {
 			e.printStackTrace();
 		} finally {
 			device.setFullScreenWindow(null);
+			if (mainFrame != null) {
+				mainFrame.dispose();
+			}
 		}
 	}
 

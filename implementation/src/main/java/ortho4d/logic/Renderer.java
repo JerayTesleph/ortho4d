@@ -1,5 +1,6 @@
 package ortho4d.logic;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -30,7 +31,7 @@ public class Renderer {
 	/**
 	 * Creates a new Renderer, using the provided structures.<br>
 	 * Note that there is no need for methods like addEntity() etc, since you
-	 * could build an Entity that emulates this kind of behaviour as efficient
+	 * could build an Entity that emulates this kind of behavior as efficient
 	 * (if not even more efficient, since the "parent" entity could do a
 	 * bounding sphere check first)<br>
 	 * Constructors may (usually) be called from any thread, unlike the Swing
@@ -50,7 +51,7 @@ public class Renderer {
 	public Renderer(Canvas3D canvas, Camera camera, List<Entity> rootEntities) {
 		this.canvas = canvas;
 		this.camera = camera;
-		this.rootEntities = rootEntities;
+		this.rootEntities = new LinkedList<Entity>(rootEntities);
 		queue = canvas.createQueue();
 	}
 

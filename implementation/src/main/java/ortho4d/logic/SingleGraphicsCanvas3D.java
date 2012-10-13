@@ -14,16 +14,26 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 	private final Vector tmp;
 	private Graphics2D g;
 
-	public SingleGraphicsCanvas3D(Graphics2D g, double sightRange) {
+	public SingleGraphicsCanvas3D(Graphics2D g) {
 		this.g = g;
 		bounds = new AABB();
 		tmp = new Vector();
-		tmp.w = sightRange;
-		bounds.extend(tmp);
 		tmp.w = 0;
+	}
+	
+	@SuppressWarnings("synthetic-access")
+	public final void setSightRange(double sightRange) {
+		bounds.setSightRange(sightRange);
+	}
+	
+	protected final Graphics2D getCurrentGraphics() {
+		return g;
 	}
 
 	protected final void useGraphics(Graphics2D g) {
+		if (g == null) {
+			throw new NullPointerException();
+		}
 		this.g = g;
 		for (SingleGraphicsCanvas2D c : canvases.values()) {
 			c.setGraphics(g);
@@ -51,7 +61,7 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 	}
 
 	@Override
-	public final Collection<? extends Canvas2D> getRelevantCanvases(
+	public Collection<? extends Canvas2D> getRelevantCanvases(
 			double fromZ, double toZ) {
 		// To lazy to search for the start
 		// => Don't use with >10 Canvas2D
@@ -83,6 +93,10 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 
 		public void clamp(Vector given) {
 			given.clampOn(min, max);
+		}
+		
+		private void setSightRange(double maxW) {
+			max.w = maxW;
 		}
 	}
 }
