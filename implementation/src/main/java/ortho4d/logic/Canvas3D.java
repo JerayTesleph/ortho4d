@@ -19,7 +19,7 @@ public interface Canvas3D {
 	 *            be painted on
 	 * @return A Collection of all possibly relevant Canvas2D objects
 	 */
-	Collection<Canvas2D> getRelevantCanvases(double fromZ, double toZ);
+	Collection<? extends Canvas2D> getRelevantCanvases(double fromZ, double toZ);
 
 	/**
 	 * Creates and returns a new RenderableQueue object, with its isOkay()

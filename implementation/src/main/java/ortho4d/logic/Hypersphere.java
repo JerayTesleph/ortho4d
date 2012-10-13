@@ -13,7 +13,7 @@ import ortho4d.math.Vector;
  */
 public class Hypersphere implements Renderable {
 	private final Vector center = new Vector();
-	private double size = 10;
+	private double size = 10, sqSize = 100;
 	private Color color = Color.RED;
 
 	public Color getColor() {
@@ -30,6 +30,7 @@ public class Hypersphere implements Renderable {
 
 	public void setSize(double size) {
 		this.size = size;
+		sqSize = size*size;
 	}
 
 	public void setCenter(Vector center) {
@@ -48,8 +49,8 @@ public class Hypersphere implements Renderable {
 
 	@Override
 	public void render(Canvas3D c3d) {
-		final Collection<Canvas2D> relevant = c3d.getRelevantCanvases(center.z
-				- size, center.z + size);
+		final Collection<? extends Canvas2D> relevant = c3d
+				.getRelevantCanvases(center.z - size, center.z + size);
 		for (Canvas2D c : relevant) {
 			final Graphics2D g = c.prepare();
 			final double intersectionZ;
@@ -90,13 +91,18 @@ public class Hypersphere implements Renderable {
 			}
 
 			final double radius = Math.sqrt(sqRadius);
-			
+
 			// Yayy orthogonal projection
 			g.translate(center.x, center.y);
 			g.setColor(color);
 			g.scale(radius, radius);
-			
+
 			g.fillOval(0, 0, 1, 1);
 		}
+	}
+
+	@Override
+	public double getSquaredRadius() {
+		return sqSize;
 	}
 }

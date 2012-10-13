@@ -47,10 +47,39 @@ public final class Vector {
 		w -= other.w;
 	}
 
+	public void min(Vector other) {
+		x = Math.min(x, other.x);
+		x = Math.min(x, other.x);
+		x = Math.min(x, other.x);
+		x = Math.min(x, other.x);
+	}
+
+	public void max(Vector other) {
+		x = Math.max(x, other.x);
+		x = Math.max(x, other.x);
+		x = Math.max(x, other.x);
+		x = Math.max(x, other.x);
+	}
+	
+	public void clampOn(Vector min, Vector max) {
+		x = clamp(min.x, x, max.x);
+		y = clamp(min.y, y, max.y);
+		z = clamp(min.z, z, max.z);
+		w = clamp(min.w, w, max.w);
+	}
+	
+	private static final double clamp(double min, double val, double max) {
+		return Math.max(min, Math.min(val, max));
+	}
+
 	public void set(Vector other) {
 		x = other.x;
 		y = other.y;
 		z = other.z;
 		w = other.w;
+	}
+
+	public double getQuareLength() {
+		return (x * x) + (y * y) + (z * z) + (w * w);
 	}
 }

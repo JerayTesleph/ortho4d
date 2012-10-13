@@ -36,6 +36,8 @@ public interface Renderable {
 	 */
 	public double getRoughRadius();
 
+	public double getSquaredRadius();
+
 	/**
 	 * (Atomically) Renders this projection of this 4D object onto the given 3D
 	 * canvas.<br>
