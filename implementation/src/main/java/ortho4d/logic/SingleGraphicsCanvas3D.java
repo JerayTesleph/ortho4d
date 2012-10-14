@@ -12,7 +12,7 @@ import ortho4d.Logger;
 import ortho4d.math.Vector;
 
 public abstract class SingleGraphicsCanvas3D implements Canvas3D {
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	
 	private final TreeMap<Double, SingleGraphicsCanvas2D> canvases = new TreeMap<Double, SingleGraphicsCanvas2D>();
 	private final AABB bounds;

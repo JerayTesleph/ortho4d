@@ -25,7 +25,7 @@ import ortho4d.gui.DisposeListener;
  * doCycle() and therefore trigger all the rendering.
  */
 public class Renderer implements Runnable, DisposeListener {
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	private final Canvas3D canvas;
 	private final Camera camera;
@@ -72,6 +72,11 @@ public class Renderer implements Runnable, DisposeListener {
 	 * method when finished and returns.
 	 */
 	public void doCycle() {
+		long start = System.currentTimeMillis();
+		if (DEBUG) {
+			Logger.println("Rendering started at " + System.currentTimeMillis());
+		}
+
 		// Fill
 		for (Entity e : rootEntities) {
 			e.registerRenderables(queue, camera);
@@ -86,8 +91,9 @@ public class Renderer implements Runnable, DisposeListener {
 		camera.cycleComplete();
 
 		if (DEBUG) {
+			long time = System.currentTimeMillis() - start;
 			Logger.println("Cycle completed with " + queue.size()
-					+ " renderables");
+					+ " renderables after "+time+" ms");
 		}
 
 		queue.clear();

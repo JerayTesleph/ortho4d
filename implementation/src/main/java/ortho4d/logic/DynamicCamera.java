@@ -21,6 +21,8 @@ import ortho4d.math.Vector;
  */
 public abstract class DynamicCamera<C extends Configuration<C>> implements
 		Camera {
+	private static final int WARN_THRESHOLD = 2;
+
 	/**
 	 * The main communication interface between the rendering thread and the
 	 * controller thread. If the controller wants to "push" his changes, he
@@ -72,10 +74,17 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 		// Swap renderingConf <--> nextConf
 		// Since we now know that there is "new" data available
 
+		long start = System.currentTimeMillis();
 		C nextConfContent;
 		do {
 			nextConfContent = nextConf.getReference();
 		} while (!nextConf.compareAndSet(nextConfContent, renderingConf, 1, 0));
+
+		long time = System.currentTimeMillis() - start;
+		if (time > WARN_THRESHOLD) {
+			System.out.println("DynamicCamera.cycleComplete(): WARNING: Took "
+					+ time + " ms to swap");
+		}
 
 		renderingConf = nextConfContent;
 	}
@@ -88,6 +97,7 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 		// Swap controlledConf <--> nextConf
 		// (unconditionally)
 
+		long start = System.currentTimeMillis();
 		C nextConfContent;
 		int nextConfStamp;
 		do {
@@ -96,6 +106,12 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 			nextConfStamp = nextConf.getStamp();
 		} while (!nextConf.compareAndSet(nextConfContent, controlledConf,
 				nextConfStamp, 1));
+
+		long time = System.currentTimeMillis() - start;
+		if (time > WARN_THRESHOLD) {
+			System.out.println("DynamicCamera.swapInto(): WARNING: Took "
+					+ time + " ms to swap into");
+		}
 
 		// But make sure that the data isn't lost
 		// May access data since renderer may not modify CONTENT of this object

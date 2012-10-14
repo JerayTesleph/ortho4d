@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 public final class Logger {
 	// Change this to disable EVERY output except inevitable error messages.
+	private static final boolean DISABLE_OUT = false;
 	private static final PrintStream OUT = System.out;
 
 	private Logger() {
@@ -14,39 +15,43 @@ public final class Logger {
 	}
 
 	public static final void println(String... strings) {
-		println(2, strings);
+		if (!DISABLE_OUT) {
+			println(2, strings);
+		}
 	}
 
 	public static final void println(int callLevel, Throwable t) {
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-
-		t.printStackTrace(pw);
-		pw.flush();
-
-		println(callLevel + 1, sw.toString());
+		if (!DISABLE_OUT) {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			t.printStackTrace(pw);
+			pw.flush();
+			println(callLevel + 1, sw.toString());
+		}
 	}
 
 	public static final void println(int callLevel, String... strings) {
-		final StackTraceElement e = new RuntimeException().getStackTrace()[callLevel];
-		final StringBuilder sb = new StringBuilder();
+		if (!DISABLE_OUT) {
+			final StackTraceElement e = new RuntimeException().getStackTrace()[callLevel];
+			final StringBuilder sb = new StringBuilder();
 
-		String className = e.getClassName();
-		if (className.startsWith("ortho4d")) {
-			sb.append(className.substring(7));
-		} else {
-			sb.append(className);
+			String className = e.getClassName();
+			if (className.startsWith("ortho4d")) {
+				sb.append(className.substring(7));
+			} else {
+				sb.append(className);
+			}
+			sb.append('.');
+			sb.append(e.getMethodName());
+			sb.append('@');
+			sb.append(e.getLineNumber());
+			sb.append(": ");
+			sb.append(Arrays.toString(strings));
+			sb.append(" -- ");
+			sb.append(Thread.currentThread().getName());
+			sb.append(", ID=");
+			sb.append(Thread.currentThread().getId());
+			OUT.println(sb.toString());
 		}
-		sb.append('.');
-		sb.append(e.getMethodName());
-		sb.append('@');
-		sb.append(e.getLineNumber());
-		sb.append(": ");
-		sb.append(Arrays.toString(strings));
-		sb.append(" -- ");
-		sb.append(Thread.currentThread().getName());
-		sb.append(", ID=");
-		sb.append(Thread.currentThread().getId());
-		OUT.println(sb.toString());
 	}
 }

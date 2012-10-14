@@ -13,7 +13,7 @@ import ortho4d.math.Vector;
  * caller "knows" that the last cycle has ended.
  */
 public final class Hypersphere implements Renderable {
-	private static final boolean DEBUG = true, HIGH_DEBUG = true;
+	private static final boolean DEBUG = false, HIGH_DEBUG = false;
 
 	private final Vector center = new Vector();
 	private double size = 10, sqSize = 100;
@@ -107,7 +107,7 @@ public final class Hypersphere implements Renderable {
 				Logger.println("radius=" + radius);
 			}
 
-			count++;
+			count = count + 1;
 		}
 
 		if (DEBUG) {

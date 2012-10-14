@@ -141,7 +141,7 @@ package ortho4d.math;
  * perpendicular to each other (as defined by the scalar product)</li></ul> This
  * sounds pretty much correct.
  */
-public final class InvertingRotationalMatrix extends Matrix {
+public final class InverseRotationalMatrix extends Matrix {
 	/*
 	 * The naming convention is: From left to right, the first increases. From
 	 * top to bottom, the second index increases.
@@ -149,13 +149,13 @@ public final class InvertingRotationalMatrix extends Matrix {
 	private double xx, /* yx=0 */zx, wx, xy, yy, zy, wy, /* xz=0,yz=0 */zz, wz,
 			xw, yw, zw, ww;
 
-	public InvertingRotationalMatrix() {
+	public InverseRotationalMatrix() {
 		zx = wx = xy = zy = wy = wz = xw = yw = zw = 0;
 
 		xx = yy = zz = ww = 1;
 	}
 
-	public void setValues(InvertingRotationalMatrix other) {
+	public void setValues(InverseRotationalMatrix other) {
 		this.xx = other.xx;
 		this.zx = other.zx;
 		this.wx = other.wx;
@@ -188,7 +188,7 @@ public final class InvertingRotationalMatrix extends Matrix {
 		xx = cosB;
 		xy = -sinA * sinB;
 		yy = cosA;
-		xw = cosB;
+		xw = cosA * sinB;
 		yw = sinA;
 
 		final double msacb = -sinA * cosB;
@@ -198,19 +198,28 @@ public final class InvertingRotationalMatrix extends Matrix {
 
 		zx = -sinB * sinC;
 		wx = -sinB * cosC;
+
 		zy = msacb * sinC;
 		wy = msacb * cosC;
+
 		zz = cosC;
 		wz = -sinC;
+
 		zw = cacb * sinC;
-		zz = cacb * cosC;
+		ww = cacb * cosC;
 	}
 
 	@Override
-	public void times(Vector with, Vector ret) {
+	public void unsafeTimes(Vector with, Vector ret) {
 		ret.x = xx * with.x + /* yx * with.y + */zx * with.z + wx * with.w;
 		ret.y = xy * with.x + yy * with.y + zy * with.z + wy * with.w;
 		ret.z = /* xz * with.x + yz * with.y + */zz * with.z + wz * with.w;
 		ret.w = xw * with.x + yw * with.y + zw * with.z + ww * with.w;
+	}
+
+	@Override
+	public double[][] getCopy() {
+		return new double[][] { { xx, 0, zx, wx }, { xy, yy, zy, wy },
+				{ 0, 0, zz, wz }, { xw, yw, zw, ww } };
 	}
 }

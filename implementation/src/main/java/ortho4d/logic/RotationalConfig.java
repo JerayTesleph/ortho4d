@@ -1,6 +1,6 @@
 package ortho4d.logic;
 
-import ortho4d.math.InvertingRotationalMatrix;
+import ortho4d.math.InverseRotationalMatrix;
 import ortho4d.math.Matrix;
 import ortho4d.math.RotationalMatrix;
 import ortho4d.math.Vector;
@@ -8,14 +8,14 @@ import ortho4d.math.Vector;
 public final class RotationalConfig extends Configuration<RotationalConfig> {
 	private final RotationalMatrix m;
 	// TODO: Rename class
-	private final InvertingRotationalMatrix inverse;
+	private final InverseRotationalMatrix inverse;
 	
 	private double alpha = 0, beta = 0, gamma = 0;
 
 	public RotationalConfig() {
 		super(new Vector());
 		m = new RotationalMatrix();
-		inverse = new InvertingRotationalMatrix();
+		inverse = new InverseRotationalMatrix();
 	}
 
 	@Override

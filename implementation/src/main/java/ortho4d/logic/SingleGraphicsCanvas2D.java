@@ -8,7 +8,7 @@ import ortho4d.Logger;
 import ortho4d.math.Vector;
 
 public final class SingleGraphicsCanvas2D implements Canvas2D {
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private static final AffineTransform IDENTITY = new AffineTransform();
 
 	private final Rectangle2D clip;

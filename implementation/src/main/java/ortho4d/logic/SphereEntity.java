@@ -5,7 +5,7 @@ import ortho4d.math.Vector;
 import ortho4d.point.ColoredSphere;
 
 public class SphereEntity implements Entity {
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	private final ColoredSphere backing;
 	private final Hypersphere renderable;

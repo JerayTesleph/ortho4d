@@ -3,7 +3,7 @@ package ortho4d.logic;
 import ortho4d.math.Vector;
 
 public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
-	private static final double PI_2 = Math.PI / 2;
+	private static final double PI_2 = Math.PI / 2, TWO_PI = Math.PI * 2;
 
 	private double alpha, beta, gamma;
 	private boolean matrixValid = false;
@@ -34,7 +34,11 @@ public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
 		beta += diff;
 		// Not important, only prevents loss of precision
 		// (After turning around 20000 times)
-		beta = Math.min(PI_2, Math.max(-PI_2, beta));
+		if (beta > TWO_PI) {
+			beta -= TWO_PI;
+		} else if (beta < -TWO_PI) {
+			beta += TWO_PI;
+		}
 	}
 
 	public void modifyGamma(double diff) {
@@ -42,7 +46,11 @@ public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
 		gamma += diff;
 		// Not important, only prevents loss of precision
 		// (After turning around 20000 times)
-		gamma = Math.min(Math.PI, Math.max(-Math.PI, gamma));
+		if (gamma > TWO_PI) {
+			gamma -= TWO_PI;
+		} else if (beta < -TWO_PI) {
+			gamma += TWO_PI;
+		}
 	}
 
 	public void setAngles(double alpha, double beta, double gamma) {
@@ -62,7 +70,7 @@ public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
 			getControlledConfiguration().setValues(alpha, beta, gamma);
 		}
 	}
-	
+
 	public RotationalConfig getControlledConfig() {
 		return getControlledConfiguration();
 	}

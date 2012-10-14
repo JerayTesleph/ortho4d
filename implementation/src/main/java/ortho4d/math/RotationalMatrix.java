@@ -202,27 +202,33 @@ public final class RotationalMatrix extends Matrix {
 		/* zy = 0 */
 		wy = sinA;
 
-		final double sacb = sinA * cosB;
+		final double msacb = -sinA * cosB;
 		final double cacb = cosA * cosB;
 		final double sinC = Math.sin(gamma);
 		final double cosC = Math.cos(gamma);
 
 		xz = -sinC * sinB;
-		yz = -sacb * sinC;
+		yz = msacb * sinC;
 		zz = cosC;
 		wz = cacb * sinC;
 
 		xw = -cosC * sinB;
-		yw = -sacb * cosC;
+		yw = msacb * cosC;
 		zw = -sinC;
 		ww = cacb * cosC;
 	}
 
 	@Override
-	public void times(Vector with, Vector ret) {
+	protected void unsafeTimes(Vector with, Vector ret) {
 		ret.x = xx * with.x + yx * with.y + /* zx * with.z + */wx * with.w;
 		ret.y = /* xy * with.x + */yy * with.y + /* zy * with.z + */wy * with.w;
 		ret.z = xz * with.x + yz * with.y + zz * with.z + wz * with.w;
 		ret.w = xw * with.x + yw * with.y + zw * with.z + ww * with.w;
+	}
+
+	@Override
+	protected double[][] getCopy() {
+		return new double[][] { { xx, yx, 0, wx }, { 0, yy, 0, wy },
+				{ xz, yz, zz, wz }, { xw, yw, zw, ww } };
 	}
 }

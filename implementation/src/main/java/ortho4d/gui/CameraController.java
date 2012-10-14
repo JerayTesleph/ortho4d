@@ -21,7 +21,7 @@ public final class CameraController implements MouseListener,
 	 * Rotation per "wheel click"<br>
 	 */
 	// "Math.PI / 12" means "12 clicks per 180 degree"
-	private static final double GAMMA_MULTIPLIER = Math.PI / 12;
+	private static final double GAMMA_MULTIPLIER = Math.PI / 40;
 
 	/**
 	 * Rotation per pixel dragged
@@ -96,8 +96,9 @@ public final class CameraController implements MouseListener,
 		final double alphaAmount, betaAmount;
 		final Point dragDest = e.getPoint();
 
-		alphaAmount = (dragDest.x - dragStart.x) * ALPHA_BETA_MULTIPLIER;
-		betaAmount = (dragDest.y - dragStart.y) * ALPHA_BETA_MULTIPLIER;
+		betaAmount = (dragDest.x - dragStart.x) * ALPHA_BETA_MULTIPLIER;
+		// Alpha behaves as "latitude", so let it (inversely) depend on y
+		alphaAmount = (dragDest.y - dragStart.y) * -ALPHA_BETA_MULTIPLIER;
 
 		cam.modifyAlpha(alphaAmount);
 		cam.modifyBeta(betaAmount);
@@ -135,6 +136,8 @@ public final class CameraController implements MouseListener,
 			Logger.println("alpha=" + convert(conf.getAlpha()), "beta="
 					+ convert(conf.getBeta()),
 					"gamma=" + convert(conf.getGamma()));
+			conf.getMatrix().times(tmp, tmp);
+			Logger.println("Error amount: [0,0,0,-" + DISTANCE + "] -> " + tmp);
 		}
 	}
 
