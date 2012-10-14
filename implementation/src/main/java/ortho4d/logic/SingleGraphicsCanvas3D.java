@@ -8,9 +8,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
+import ortho4d.Logger;
 import ortho4d.math.Vector;
 
 public abstract class SingleGraphicsCanvas3D implements Canvas3D {
+	private static final boolean DEBUG = true;
+	
 	private final TreeMap<Double, SingleGraphicsCanvas2D> canvases = new TreeMap<Double, SingleGraphicsCanvas2D>();
 	private final AABB bounds;
 	private final Vector tmp;
@@ -59,6 +62,11 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 	}
 	
 	protected abstract void prepareGraphics();
+	
+	@Override
+	public final void restart() {
+		prepareGraphics();
+	}
 
 	public final void add(Rectangle2D clip, Rectangle2D relevant, double minZ,
 			double maxZ) {
@@ -118,8 +126,21 @@ public abstract class SingleGraphicsCanvas3D implements Canvas3D {
 		private final Vector min = new Vector(), max = new Vector();
 
 		public void extend(Vector mustContain) {
+			// TODO: Remove for performance
+			final StringBuilder sb = new StringBuilder();
+			if (DEBUG) {
+				sb.append("Extending to ");
+				mustContain.append(sb);
+			}
 			min.min(mustContain);
 			max.max(mustContain);
+			if (DEBUG) {
+				sb.append(" -> min=");
+				min.append(sb);
+				sb.append(", max=");
+				max.append(sb);
+				Logger.println(sb.toString());
+			}
 		}
 
 		public void clamp(Vector given) {

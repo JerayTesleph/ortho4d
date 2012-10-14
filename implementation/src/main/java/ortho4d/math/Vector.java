@@ -49,16 +49,16 @@ public final class Vector {
 
 	public void min(Vector other) {
 		x = Math.min(x, other.x);
-		x = Math.min(x, other.x);
-		x = Math.min(x, other.x);
-		x = Math.min(x, other.x);
+		y = Math.min(y, other.y);
+		z = Math.min(z, other.z);
+		w = Math.min(w, other.w);
 	}
 
 	public void max(Vector other) {
 		x = Math.max(x, other.x);
-		x = Math.max(x, other.x);
-		x = Math.max(x, other.x);
-		x = Math.max(x, other.x);
+		y = Math.max(y, other.y);
+		z = Math.max(z, other.z);
+		w = Math.max(w, other.w);
 	}
 	
 	public void clampOn(Vector min, Vector max) {

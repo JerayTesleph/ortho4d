@@ -23,6 +23,10 @@ public abstract class RenderableQueue implements Iterable<Renderable> {
 		queue.clear();
 	}
 
+	public int size() {
+		return queue.size();
+	}
+
 	@Override
 	public final Iterator<Renderable> iterator() {
 		return Collections.unmodifiableSet(queue).iterator();

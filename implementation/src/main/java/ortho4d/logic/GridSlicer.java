@@ -36,9 +36,10 @@ public final class GridSlicer {
 	
 	public static void addSlices(int rows,
 			int cols, SingleGraphicsCanvas3D c, Rectangle2D bounds) {
-		final Rectangle2D relevant = new Rectangle2D.Double(-bounds.getWidth()/2,
-				-bounds.getHeight()/2, bounds.getWidth(), bounds.getHeight());
-		final double zHalfRange = Math.sqrt(bounds.getWidth() * bounds.getHeight())/2;
+		final double usableX = bounds.getWidth()/cols, usableY = bounds.getHeight()/rows;
+		final Rectangle2D relevant = new Rectangle2D.Double(-usableX/2,
+				-usableY/2, usableX, usableY);
+		final double zHalfRange = Math.sqrt(bounds.getWidth() * bounds.getHeight())/4;
 		
 		GridSlicer gs = new GridSlicer(relevant, -zHalfRange, zHalfRange);
 		

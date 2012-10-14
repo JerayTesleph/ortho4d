@@ -57,6 +57,11 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 	}
 
 	@Override
+	public final Matrix getInverseMatrix() {
+		return renderingConf.getInverseMatrix();
+	}
+
+	@Override
 	public final void cycleComplete() {
 		if (nextConf.getStamp() == 0) {
 			// current data is newer than nextConf
@@ -96,7 +101,7 @@ public abstract class DynamicCamera<C extends Configuration<C>> implements
 		// May access data since renderer may not modify CONTENT of this object
 		// ... even if the renderer already has swapped objects and is using
 		// this right now:
-		nextConfContent.setMatrix(controlledConf);
+		nextConfContent.setMatrices(controlledConf);
 		nextConfContent.getOrigin().set(controlledConf.getOrigin());
 
 		controlledConf = nextConfContent;

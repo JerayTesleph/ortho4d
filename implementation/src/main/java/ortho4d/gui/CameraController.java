@@ -8,11 +8,15 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import ortho4d.Logger;
 import ortho4d.logic.RotationalCamera;
+import ortho4d.logic.RotationalConfig;
 import ortho4d.math.Vector;
 
 public final class CameraController implements MouseListener,
 		MouseMotionListener, MouseWheelListener {
+	private static final boolean DEBUG = true;
+
 	/**
 	 * Rotation per "wheel click"<br>
 	 */
@@ -48,7 +52,7 @@ public final class CameraController implements MouseListener,
 	public RotationalCamera getCamera() {
 		return cam;
 	}
-	
+
 	public void listenOn(Component c) {
 		c.addMouseListener(this);
 		c.addMouseMotionListener(this);
@@ -110,6 +114,10 @@ public final class CameraController implements MouseListener,
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (DEBUG) {
+			Logger.println("Rotated " + e.getPreciseWheelRotation());
+		}
+
 		final double amount = e.getPreciseWheelRotation() * GAMMA_MULTIPLIER;
 		cam.modifyGamma(amount);
 		updateLocation();
@@ -119,9 +127,18 @@ public final class CameraController implements MouseListener,
 	private void updateLocation() {
 		tmp.x = tmp.y = tmp.z = 0;
 		tmp.w = -DISTANCE;
-		// FIXME: Wrong!
-		cam.getCurrentMatrix().times(tmp, tmp);
-		// TODO: Debug angles
+
+		RotationalConfig conf = cam.getControlledConfig();
+		conf.getInverseMatrix().times(tmp, tmp);
 		cam.moveTo(tmp);
+		if (DEBUG) {
+			Logger.println("alpha=" + convert(conf.getAlpha()), "beta="
+					+ convert(conf.getBeta()),
+					"gamma=" + convert(conf.getGamma()));
+		}
+	}
+
+	private static final double convert(double radians) {
+		return Math.toDegrees(radians);
 	}
 }

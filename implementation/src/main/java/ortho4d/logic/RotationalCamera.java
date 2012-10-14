@@ -1,6 +1,5 @@
 package ortho4d.logic;
 
-import ortho4d.math.RotationalMatrix;
 import ortho4d.math.Vector;
 
 public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
@@ -45,26 +44,29 @@ public final class RotationalCamera extends DynamicCamera<RotationalConfig> {
 		// (After turning around 20000 times)
 		gamma = Math.min(Math.PI, Math.max(-Math.PI, gamma));
 	}
-	
+
+	public void setAngles(double alpha, double beta, double gamma) {
+		getControlledConfiguration().setValues(alpha, beta, gamma);
+	}
+
 	public void reset() {
 		Vector v = getControlledConfiguration().getOrigin();
 		v.x = v.y = v.z = v.w = 0;
 		alpha = beta = gamma = 0;
-		getControlledConfiguration().getMatrix().setValues(0, 0, 0);
+		getControlledConfiguration().setValues(0, 0, 0);
 	}
-	
+
 	private void updateMatrix() {
 		if (!matrixValid) {
 			matrixValid = true;
-			getControlledConfiguration().getMatrix().setValues(alpha, beta, gamma);
+			getControlledConfiguration().setValues(alpha, beta, gamma);
 		}
 	}
 	
-	public RotationalMatrix getCurrentMatrix() {
-		updateMatrix();
-		return getControlledConfiguration().getMatrix();
+	public RotationalConfig getControlledConfig() {
+		return getControlledConfiguration();
 	}
-	
+
 	public void commit() {
 		updateMatrix();
 		swapInto();

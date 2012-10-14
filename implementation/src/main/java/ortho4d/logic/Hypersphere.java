@@ -13,8 +13,8 @@ import ortho4d.math.Vector;
  * caller "knows" that the last cycle has ended.
  */
 public final class Hypersphere implements Renderable {
-	private static final boolean DEBUG = true;
-	
+	private static final boolean DEBUG = true, HIGH_DEBUG = true;
+
 	private final Vector center = new Vector();
 	private double size = 10, sqSize = 100;
 	private Color color = Color.RED;
@@ -55,7 +55,7 @@ public final class Hypersphere implements Renderable {
 		final Collection<? extends Canvas2D> relevant = c3d
 				.getRelevantCanvases(center.z - size, center.z + size);
 		int count = 0;
-		
+
 		for (Canvas2D c : relevant) {
 			final double intersectionZ;
 
@@ -101,13 +101,18 @@ public final class Hypersphere implements Renderable {
 			g.translate(center.x, center.y);
 			g.setColor(color);
 			g.scale(radius, radius);
-			g.fillOval(0, 0, 1, 1);
-			
+			g.fillOval(-1, -1, 2, 2);
+
+			if (HIGH_DEBUG) {
+				Logger.println("radius=" + radius);
+			}
+
 			count++;
 		}
-		
+
 		if (DEBUG) {
-			Logger.println("Rendered on "+count+" canvases", this.toString());
+			Logger.println("Rendered on " + count + " canvases",
+					this.toString());
 		}
 	}
 

@@ -82,7 +82,7 @@ public class DoubleBufferCanvas3D extends SingleGraphicsCanvas3D {
 	@Override
 	protected void prepareGraphics() {
 		Graphics2D g = getCurrentGraphics();
-
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width + 5, height + 5);
 

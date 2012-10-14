@@ -26,7 +26,7 @@ import ortho4d.gui.DisposeListener;
  */
 public class Renderer implements Runnable, DisposeListener {
 	private static final boolean DEBUG = true;
-	
+
 	private final Canvas3D canvas;
 	private final Camera camera;
 	private final RenderableQueue queue;
@@ -84,15 +84,23 @@ public class Renderer implements Runnable, DisposeListener {
 
 		canvas.cycleComplete();
 		camera.cycleComplete();
-		queue.clear();
-		
+
 		if (DEBUG) {
-			Logger.println("Cycle complete");
+			Logger.println("Cycle completed with " + queue.size()
+					+ " renderables");
 		}
+
+		queue.clear();
 	}
 
 	@Override
 	public void run() {
+		if (!haltAfterCycle) {
+			// Re-prepare initial frame, since the contests most definitely have
+			// been lost (loading, opening window etc. costs time)
+			canvas.restart();
+		}
+
 		while (!haltAfterCycle) {
 			doCycle();
 			if (delay > 0) {
@@ -100,7 +108,7 @@ public class Renderer implements Runnable, DisposeListener {
 			}
 		}
 	}
-	
+
 	@Override
 	public void dispose() {
 		haltAfterCycle = true;

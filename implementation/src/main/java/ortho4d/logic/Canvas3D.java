@@ -42,4 +42,10 @@ public interface Canvas3D {
 	// No need for a start signal
 	// Initially, painting must be enabled
 	// ... and painting must still be allowed after a cacleComplete()
+
+	/**
+	 * This method is called when we are (sufficiently) sure that the
+	 * contents of video memory have been lost
+	 */
+	void restart();
 }

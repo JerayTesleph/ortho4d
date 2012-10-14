@@ -19,22 +19,29 @@ public interface Camera {
 	 * 
 	 * @return the origin of the camera
 	 */
-	public abstract Vector getOrigin();
+	public Vector getOrigin();
 
 	/**
 	 * Returns the rotational matrix that represents the rotation involved in
 	 * transferring from the actual coordinate system to the "camera" coordinate
 	 * system. Note that, inherently, rotation means that
 	 * <code>(0, 0, 0, 0)</code> stays exactly where it is.<br>
-	 * Return value must be element of <code>SO(4)</code>, the special
-	 * (<code>det M = 1</code>) orthogonal group.<br>
+	 * Return value must be element of <code>SO(4)</code>, the special (
+	 * <code>det M = 1</code>) orthogonal group.<br>
 	 * May be called on any thread, is used heavily on the Rendering thread
 	 * (Entity, during registerRenderable).<br>
 	 * May NOT change between two calls to cycleComplete()
 	 * 
 	 * @return the rotational matrix representing the rotation
 	 */
-	public abstract Matrix getMatrix();
+	public Matrix getMatrix();
+
+	/**
+	 * Returns the inverse matrix of getMatrix(). Otherwise, same rules apply.
+	 * 
+	 * @return the inverse matrix of getMatrix()
+	 */
+	public Matrix getInverseMatrix();
 
 	/**
 	 * Indicates that the rendering has completed and now, and ONLY NOW, new
@@ -42,5 +49,5 @@ public interface Camera {
 	 * getMatrix(), getOffset() etc.<br>
 	 * Must be called on the Rendering thread.
 	 */
-	public abstract void cycleComplete();
+	public void cycleComplete();
 }

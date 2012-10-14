@@ -12,7 +12,9 @@ public abstract class Configuration<C extends Configuration<C>> {
 
 	public abstract Matrix getMatrix();
 
-	public abstract void setMatrix(C c);
+	public abstract Matrix getInverseMatrix();
+
+	public abstract void setMatrices(C c);
 
 	public final Vector getOrigin() {
 		return origin;
